@@ -6,7 +6,7 @@
 #    By: xviladri <xviladri@student.42barcelona.co  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/28 17:01:19 by xviladri          #+#    #+#              #
-#    Updated: 2026/02/28 17:30:13 by xviladri         ###   ########.fr        #
+#    Updated: 2026/02/28 18:11:17 by xviladri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME        = cub3D

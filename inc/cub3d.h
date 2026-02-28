@@ -6,6 +6,12 @@
 /*   By: xviladri <xviladri@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 16:53:08 by xviladri          #+#    #+#             */
-/*   Updated: 2026/02/28 17:02:34 by xviladri         ###   ########.fr       */
+/*   Updated: 2026/02/28 17:56:30 by xviladri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#ifndef CUB3D_H
+# define CUB3D_H
+
+# include "../libs/libft/libft.h"
+
+#endif
