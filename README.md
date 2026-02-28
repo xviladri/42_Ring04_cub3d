@@ -73,7 +73,7 @@ To ensure smooth collaboration, we divided the engine into two main logical bloc
 
   **▶️ Execution:**
   Run the compiled program by passing a valid .cub map file as the first argument: 
-  `./cub3D maps/valid_map.cub`
+  ```./cub3D maps/valid_map.cub```
 
 ### 📚 Resources
 
