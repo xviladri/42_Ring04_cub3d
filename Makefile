@@ -6,7 +6,7 @@
 #    By: xviladri <xviladri@student.42barcelona.co  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/28 17:01:19 by xviladri          #+#    #+#              #
-#    Updated: 2026/02/28 18:11:17 by xviladri         ###   ########.fr        #
+#    Updated: 2026/02/28 19:02:50 by xviladri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME        = cub3D
@@ -72,16 +72,16 @@ all: $(NAME)
 
 # Compilar libft si no lo está
 $(LIBFT):
-	@make -C $(LIBFT_DIR)
+	@make -C $(LIBFT_DIR) > /dev/null 2>&1
 
 # Compilar minilibx si no lo está
 $(MLX):
-	@make -C $(MLX_DIR)
+	@make -C $(MLX_DIR)  > /dev/null 2>&1
 
 # Crear la carpeta obj si no existe y compilar los .c en .o
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c Makefile $(HEADER)
 	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@ 
 
 # Unir todo en el ejecutable final
 $(NAME): $(LIBFT) $(MLX) $(OBJS)
@@ -93,12 +93,14 @@ $(NAME): $(LIBFT) $(MLX) $(OBJS)
 	@printf "$(YELLOW)====================================================\n$(RESET)"
 
 clean:
-	@make clean -C $(LIBFT_DIR)
-	@rm -rf $(OBJ_DIR)
+	@printf "%b" "$(PURPLE)$(@)ing...$(RESET)\n"
+	@make clean -C $(LIBFT_DIR)  > /dev/null 2>&1
+	@rm -rf $(OBJ_DIR)  > /dev/null 2>&1
 
 fclean: clean
-	@make fclean -C $(LIBFT_DIR)
-	@rm -f $(NAME)
+	@make fclean -C $(LIBFT_DIR)  > /dev/null 2>&1
+	@rm -f $(NAME)  > /dev/null 2>&1
+
 
 re: fclean all
 
