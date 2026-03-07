@@ -6,7 +6,7 @@
 /*   By: xviladri <xviladri@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 16:49:15 by xviladri          #+#    #+#             */
-/*   Updated: 2026/03/07 17:57:24 by xviladri         ###   ########.fr       */
+/*   Updated: 2026/03/07 19:11:03 by xviladri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../inc/cub3d.h"
@@ -15,20 +15,6 @@
 #include <stdlib.h> // para la función exit()
 
 #define ESC_KEY 65307//es la tecla ESC en Linux
-
-//2. SISTEMA DE ERRORES Y LIMPIEZA
-void	free_and_exit(t_map *data, char *error_msg)
-{
-	printf("Error\n%s\n", error_msg);
-	if (data)
-	{
-		//Ayoub: anyadir los free() a medida que reservemos memoria:
-		//if (data -> cardinal.no) free(data->caridnal.no);
-		//if (data -> map) free_matrix(data->map);
-		// etc...
-	}
-	exit(1);//salir con error
-}
 
 //1. INICIALIZAMOS LA ESTRUCTURA: ponemos todo a NULL y 0. Asi cuando hacemos free() de punteros con basura de memoria, el programa no da seg fault
 void	init_map_data(t_map *data)
@@ -76,6 +62,23 @@ int	main(int argc, char **argv)
 	printf("FUNCIONA: los argumentos son correctos. File: %s\n", argv[1]);
 	//3.AYOUB: hacer la funcion: parse_cub_file(argv[1], &data);
 	parse_cub_file(argv[1], &data);
+	/* Chivatos para comprobar que se ha guardado bien */
+	printf("\n--- DATOS GUARDADOS EN LA STRUCT ---\n");
+	printf("Ruta Norte: '%s'\n", data.cardinal.no);
+	printf("Ruta Sur: '%s'\n", data.cardinal.so);
+	printf("Ruta Oeste: '%s'\n", data.cardinal.we);
+	printf("Ruta Este: '%s'\n", data.cardinal.ea);
+	printf("Color del Suelo (int): %d\n", data.floor_color);
+	printf("Color del Techo (int): %d\n", data.ceiling_color);
+	printf("------------------------------------\n\n");
 	//4.XENIA: hacer la funcion: init_graphics(&dat);
+	printf("----- EL MAPA 2D -----\n");
+	int	i;
+	i = 0;
+	while (data.map && data.map[i])
+	{
+		printf("[%d]: %s\n", i, data.map[i]);
+		i++;
+	}
 	return (0);
 }
