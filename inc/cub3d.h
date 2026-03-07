@@ -121,4 +121,22 @@ typedef struct s_map
 	unsigned int	map_height;
 }	t_map;
 
+//ANYADIMOS LAS FUNCIONES AQUI: ponemos el archivo donde se encuentran
+
+//src:
+void	free_and_exit(t_map *data, char *error_msg);
+//parsing: parse_cub.c
+void	parse_cub_file(char *file_path, t_map *data);
+//parsing: map_textures.c
+int		skip_spaces(char *line);
+void	identify_element(char *line, int i, t_map *data);
+void	process_line(char *line, t_map *data);
+void	save_texture(char **dest, char *line, t_map *data);
+//parsing: parse_colors.c
+void	free_matrix(char **matrix);
+int		is_valid_number(char *str);
+int		extract_color(char *line, t_map *data);
+void	save_color(int *dest, char *line, t_map *data, int is_floor);
+//parsing: map.c
+void	add_line_to_map(t_map *data, char *line);
 #endif

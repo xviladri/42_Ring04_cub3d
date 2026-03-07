@@ -6,7 +6,7 @@
 #    By: xviladri <xviladri@student.42barcelona.co  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/28 17:01:19 by xviladri          #+#    #+#              #
-#    Updated: 2026/02/28 19:02:50 by xviladri         ###   ########.fr        #
+#    Updated: 2026/03/07 19:05:18 by xviladri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME        = cub3D
@@ -27,7 +27,8 @@ MLX_FLAGS   = -L$(MLX_DIR) -lmlx -L/usr/lib -lXext -lX11 -lm -lz
 # Archivos fuente
 SRC_DIR     = src
 OBJ_DIR     = obj
-SRC_FILES   = main.c
+SRC_FILES   = main.c close_program.c parsing/parse_cub.c parsing/map_textures.c parsing/parse_colors.c parsing/map.c
+
 SRCS        = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS        = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
 
@@ -80,7 +81,7 @@ $(MLX):
 
 # Crear la carpeta obj si no existe y compilar los .c en .o
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c Makefile $(HEADER)
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@ 
 
 # Unir todo en el ejecutable final

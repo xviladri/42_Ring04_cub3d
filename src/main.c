@@ -6,63 +6,79 @@
 /*   By: xviladri <xviladri@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 16:49:15 by xviladri          #+#    #+#             */
-/*   Updated: 2026/03/07 12:28:54 by xviladri         ###   ########.fr       */
+/*   Updated: 2026/03/07 19:11:03 by xviladri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../inc/cub3d.h"
 #include "../libs/minilibx-linux/mlx.h"
 #include <stdio.h>
 #include <stdlib.h> // para la función exit()
-//AYOUB GUAPO
+
 #define ESC_KEY 65307//es la tecla ESC en Linux
 
-// 2. Función que se ejecuta para salir limpiamente
-// Libera toda la memoria gráfica y cierra el programa
-int close_window(t_map *data)
+//1. INICIALIZAMOS LA ESTRUCTURA: ponemos todo a NULL y 0. Asi cuando hacemos free() de punteros con basura de memoria, el programa no da seg fault
+void	init_map_data(t_map *data)
 {
-	printf("Cerrando el juego limpiamente...\n");
-	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-	mlx_destroy_display(data->mlx_ptr);// IMPORTANTE: Función SOLO de Linux para liberar el display
-	free(data->mlx_ptr);// Liberamos el puntero principal de la minilibx
-	exit(0);
-	return (0);
-}
-// 3. Función que "escucha" el teclado. Se ejecuta cada vez que presionamos CUALQUIER tecla
-int key_press(int keycode, t_map *data)
-{
-	if (keycode == ESC_KEY)
-	{
-		printf("Has pulsado ESC.\n");
-		close_window(data);
-    }
-	return (0);
+	data->mlx_ptr = NULL;
+	data->win_ptr = NULL;
+	data->map = NULL;
+	data->imgs = NULL;
+	data->cardinal.no = NULL;
+	data->cardinal.so = NULL;
+	data->cardinal.we = NULL;
+	data->cardinal.ea = NULL;
+	data->floor_exist = 0;
+	data->ceiling_exist = 0;
+	data->floor_color = 0;
+	data->ceiling_color = 0;
+	data->map_width = 0;
+	data->map_height = 0;
+	data->map_started = 0;
+	//faltaria inicializar t_player y t_keys (si no cabe aqui, en otra funcion (por la Norminette).
 }
 
-int main(void)
+//3. VALIDAR ARGUMENTOS
+void	check_args(int argc, char **argv, t_map *data)
 {
-	t_map  data;//Declaramos la estructura
-    
-	// Iniciamos la conexión y la guardamos en la struct
-    data.mlx_ptr = mlx_init();
-    if (!data.mlx_ptr)
-        return (1);
-    // Creamos la ventana y la guardamos en la struct
-	data.win_ptr = mlx_new_window(data.mlx_ptr, 800, 600, "Nuestro primer cub3D");
-    if (!data.win_ptr)
-    {
-		mlx_destroy_display(data.mlx_ptr);
-		free(data.mlx_ptr);
-		return (1);
-    }
-    // --- LOS HOOKS: ---
-    // mlx_hook(ventana, numero_de_evento, mascara, funcion_a_ejecutar, parametro_extra)
-    // Evento 17 = DestroyNotify ==> sirve para poder cerrar ventana con la cruz
-	mlx_hook(data.win_ptr, 17, 0, close_window, &data); 
-    // Evento 2 = KeyPress (Pulsar cualquier tecla)
-    // Usamos la máscara 1L<<0 que es la estándar en X11 para leer teclados
-	mlx_hook(data.win_ptr, 2, 1L<<0, key_press, &data);
-    // Bucle infinito
-	printf("¡Ventana abierta! Pulsa ESC o la cruz para cerrarla.\n");
-	mlx_loop(data.mlx_ptr);
+	int	len;
+	//Regla 1: solo deben haber 2 aargs (./cub3D y el mapa)
+	if (argc != 2)
+		free_and_exit(data, "Invalid num. of arguments. Use: ./cub3D <map.cub>");
+	//Regla 2: el archivo q le pasamos tiene que terminar en ".cub"
+	len = ft_strlen(argv[1]);
+	if (len < 4 || ft_strncmp(&argv[1][len - 4], ".cub", 4) != 0)
+		free_and_exit(data, "The file must have the extension .cub");
+}
+
+//PUNTO DE ENTRADA
+int	main(int argc, char **argv)
+{
+	t_map	data;
+	//1. inicializamos todo a 0 de forma segura
+	init_map_data(&data);
+	//2. comprobamos argumentos
+	check_args(argc, argv, &data);
+	//Si llegmos aqui, los argumentos estan perfectos
+	printf("FUNCIONA: los argumentos son correctos. File: %s\n", argv[1]);
+	//3.AYOUB: hacer la funcion: parse_cub_file(argv[1], &data);
+	parse_cub_file(argv[1], &data);
+	/* Chivatos para comprobar que se ha guardado bien */
+	printf("\n--- DATOS GUARDADOS EN LA STRUCT ---\n");
+	printf("Ruta Norte: '%s'\n", data.cardinal.no);
+	printf("Ruta Sur: '%s'\n", data.cardinal.so);
+	printf("Ruta Oeste: '%s'\n", data.cardinal.we);
+	printf("Ruta Este: '%s'\n", data.cardinal.ea);
+	printf("Color del Suelo (int): %d\n", data.floor_color);
+	printf("Color del Techo (int): %d\n", data.ceiling_color);
+	printf("------------------------------------\n\n");
+	//4.XENIA: hacer la funcion: init_graphics(&dat);
+	printf("----- EL MAPA 2D -----\n");
+	int	i;
+	i = 0;
+	while (data.map && data.map[i])
+	{
+		printf("[%d]: %s\n", i, data.map[i]);
+		i++;
+	}
 	return (0);
 }

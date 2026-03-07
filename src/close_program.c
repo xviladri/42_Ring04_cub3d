@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
+/*   close_program.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xviladri <xviladri@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/16 18:16:44 by xviladri          #+#    #+#             */
-/*   Updated: 2025/01/03 16:47:38 by xviladri         ###   ########.fr       */
+/*   Created: 2026/03/07 18:39:50 by xviladri          #+#    #+#             */
+/*   Updated: 2026/03/07 18:40:53 by xviladri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../inc/cub3d.h"
 
-void	ft_lstclear(t_list **lst, void (*del)(void *))
+//MANEJO DE ERRORES Y LIMPIEZA
+void	free_and_exit(t_map *data, char *error_msg)
 {
-	t_list	*tmp;
-
-	if (!lst || !del)
-		return ;
-	while (*lst)
+	printf("Error\n%s\n", error_msg);
+	if (data)
 	{
-		tmp = (*lst)->next;
-		del((*lst)->content);
-		free(*lst);
-		*lst = tmp;
+		//Ayoub: anyadir los free() a medida que reservemos memoria:
+		//if (data -> cardinal.no) free(data->caridnal.no);
+		//if (data -> map) free_matrix(data->map);
+		// etc...
 	}
-	*lst = NULL;
+	exit(1);//salir con error
 }
