@@ -6,7 +6,7 @@
 /*   By: xviladri <xviladri@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:56:37 by xviladri          #+#    #+#             */
-/*   Updated: 2025/01/03 16:45:44 by xviladri         ###   ########.fr       */
+/*   Updated: 2025/02/08 18:43:28 by xviladri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 {
 	t_list	*tmp;
 
+	tmp = NULL;
 	if (!lst || !new)
 		return ;
 	if (*lst == NULL)
@@ -23,9 +24,9 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 		*lst = new;
 		return ;
 	}
-	tmp = *lst;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
-	new->next = NULL;
+	else
+	{
+		tmp = ft_lstlast(*lst);
+		tmp->next = new;
+	}
 }

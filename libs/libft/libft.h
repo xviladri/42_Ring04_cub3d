@@ -19,6 +19,16 @@
 # include <string.h>
 # include <fcntl.h>
 # include <stdarg.h>
+# include <ctype.h>
+# include <limits.h>
+
+# ifndef OPEN_MAX
+#  define OPEN_MAX 1024
+# endif
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
 // Parte 1 - Funciones de libc	c
 size_t	ft_strlen(const char *s);
@@ -59,18 +69,20 @@ void	ft_putnbr_fd(int n, int fd);
 // parte bonus
 typedef struct s_list
 {
-	int				content;
+	void			*content;
 	struct s_list	*next;
-}	t_list;
+}		t_list;
 
-t_list	*ft_lstnew(int content);
-void	ft_lstadd_front(t_list **lst, t_list *new);
-int		ft_lstsize(t_list *lst);
+/*Bonus Functions*/
 t_list	*ft_lstlast(t_list *lst);
+t_list	*ft_lstnew(void *content);
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+int		ft_lstsize(t_list *lst);
+void	ft_lstadd_front(t_list **lst, t_list *new);
 void	ft_lstadd_back(t_list **lst, t_list *new);
-void	ft_lstdelone(t_list *lst, void (*del)(int*));
-void	ft_lstclear(t_list **lst, void (*del)(int*));
-void	ft_lstiter(t_list *lst, void (*f)(int *));
+void	ft_lstdelone(t_list *lst, void (*del)(void*));
+void	ft_lstclear(t_list **lst, void (*del)(void*));
+void	ft_lstiter(t_list *lst, void (*f)(void *));
 //ft_printf
 int		ft_printf(char const *str, ...);
 int		conditionals(char str, va_list args);
@@ -80,4 +92,12 @@ int		ft_putchr(int c);
 int		ft_putstr(char *s);
 void	ft_putnbr(int n, int *count);
 void	ft_unsigned(unsigned int n, int *count);
+//get_next_line
+char	*get_next_line(int fd);
+char	*read_file(int fd, char *result);
+char	*line(char *buffer);
+char	*next_line(char *buffer);
+void	ft_bzero_1(void *s, size_t n);
+char	*ft_strjoin_1(char *s1, char *s2);
+size_t	ft_strlen_1(const char *str);
 #endif

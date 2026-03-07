@@ -6,7 +6,7 @@
 /*   By: xviladri <xviladri@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 16:53:08 by xviladri          #+#    #+#             */
-/*   Updated: 2026/03/07 12:01:43 by xviladri         ###   ########.fr       */
+/*   Updated: 2026/03/07 18:20:34 by xviladri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef CUB3D_H 
@@ -120,5 +120,12 @@ typedef struct s_map
 	unsigned int	map_width;
 	unsigned int	map_height;
 }	t_map;
+
+//ANYADIMOS LAS FUNCIONES AQUI: ponemos el archivo donde se encuentran
+//parsing: parse_cub.c
+void	free_and_exit(t_map *data, char *error_msg);
+void	parse_cub_file(char *file_path, t_map *data);
+//parsing: detector.c
+void	process_line(char *line, t_map *data);
 
 #endif
