@@ -6,7 +6,7 @@
 /*   By: xviladri <xviladri@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 16:53:08 by xviladri          #+#    #+#             */
-/*   Updated: 2026/02/28 17:56:30 by xviladri         ###   ########.fr       */
+/*   Updated: 2026/03/07 12:01:43 by xviladri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef CUB3D_H 
@@ -21,7 +21,7 @@
 # include <stddef.h>
 # include <fcntl.h>
 # include <math.h>
-# include "../libs/minilibx/mlx.h"
+# include "../libs/minilibx-linux/mlx.h"
 # include "../libs/libft/libft.h"
 
 //keyboard
@@ -120,3 +120,5 @@ typedef struct s_map
 	unsigned int	map_width;
 	unsigned int	map_height;
 }	t_map;
+
+#endif
