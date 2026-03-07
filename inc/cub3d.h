@@ -6,7 +6,7 @@
 /*   By: xviladri <xviladri@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 16:53:08 by xviladri          #+#    #+#             */
-/*   Updated: 2026/03/07 12:01:43 by xviladri         ###   ########.fr       */
+/*   Updated: 2026/03/07 12:38:25 by xviladri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef CUB3D_H 
