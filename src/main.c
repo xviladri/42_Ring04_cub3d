@@ -6,14 +6,14 @@
 /*   By: xviladri <xviladri@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 16:49:15 by xviladri          #+#    #+#             */
-/*   Updated: 2026/03/07 11:53:08 by xviladri         ###   ########.fr       */
+/*   Updated: 2026/03/07 12:28:54 by xviladri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../inc/cub3d.h"
 #include "../libs/minilibx-linux/mlx.h"
 #include <stdio.h>
 #include <stdlib.h> // para la función exit()
-
+//AYOUB GUAPO
 #define ESC_KEY 65307//es la tecla ESC en Linux
 
 // 2. Función que se ejecuta para salir limpiamente
