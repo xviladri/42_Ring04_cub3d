@@ -6,7 +6,7 @@
 /*   By: xviladri <xviladri@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 16:49:15 by xviladri          #+#    #+#             */
-/*   Updated: 2026/03/07 19:11:03 by xviladri         ###   ########.fr       */
+/*   Updated: 2026/03/08 16:28:21 by xviladri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../inc/cub3d.h"
@@ -60,9 +60,12 @@ int	main(int argc, char **argv)
 	check_args(argc, argv, &data);
 	//Si llegmos aqui, los argumentos estan perfectos
 	printf("FUNCIONA: los argumentos son correctos. File: %s\n", argv[1]);
-	//3.AYOUB: hacer la funcion: parse_cub_file(argv[1], &data);
+	//Lee todo el archivo y lo guarda en la struct:
 	parse_cub_file(argv[1], &data);
-	/* Chivatos para comprobar que se ha guardado bien */
+	//Validamos el mapa que acabamos de leer:
+	check_map_elements(&data);
+	check_map_closed(&data);
+	//* Chivatos para comprobar que se ha guardado bien: llegamos aqui si check_map_elements esta bien):
 	printf("\n--- DATOS GUARDADOS EN LA STRUCT ---\n");
 	printf("Ruta Norte: '%s'\n", data.cardinal.no);
 	printf("Ruta Sur: '%s'\n", data.cardinal.so);
