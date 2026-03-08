@@ -6,7 +6,7 @@
 /*   By: xviladri <xviladri@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 18:39:50 by xviladri          #+#    #+#             */
-/*   Updated: 2026/03/07 18:40:53 by xviladri         ###   ########.fr       */
+/*   Updated: 2026/03/08 14:43:47 by xviladri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 //MANEJO DE ERRORES Y LIMPIEZA
 void	free_and_exit(t_map *data, char *error_msg)
 {
-	printf("Error\n%s\n", error_msg);
+	printf("Error: llamamos a la funcion free_and_exit.\n%s\n", error_msg);
 	if (data)
 	{
 		//Ayoub: anyadir los free() a medida que reservemos memoria:
