@@ -1,11 +1,11 @@
 NO ./ruta_norte
-SO ./ruta_sur
+SO ./ruta_sur	
 WE ./ruta_oeste
 EA ./ruta_este
 
 F 220,100,0
 C 225,30,0
 
-111011
+111111
 100N01
 111111
