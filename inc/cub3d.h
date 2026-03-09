@@ -6,7 +6,7 @@
 /*   By: xviladri <xviladri@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 16:53:08 by xviladri          #+#    #+#             */
-/*   Updated: 2026/03/09 19:28:24 by xviladri         ###   ########.fr       */
+/*   Updated: 2026/03/09 19:33:30 by xviladri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef CUB3D_H 
@@ -101,6 +101,18 @@ typedef struct s_keys
 	int	rotateright;
 }	t_keys;
 
+//AYOUB: Estructura para guardar los datos de una textura .xpm
+typedef struct s_tex
+{
+	void	*img_ptr;
+	char	*addr;
+	int		bpp;
+	int		line_len;
+	int		endian;
+	int		width;
+	int		height;
+}	t_tex;
+
 typedef struct s_map
 {
 	void			*mlx_ptr;
@@ -117,10 +129,13 @@ typedef struct s_map
 	t_cardinal		cardinal;
 	unsigned int	map_width;
 	unsigned int	map_height;
+	t_tex	tex_n;
+	t_tex	tex_s;
+	t_tex	tex_e;
+	t_tex	tex_w;
 }	t_map;
 
 //ANYADIMOS LAS FUNCIONES AQUI: ponemos el archivo donde se encuentran
-
 //src: close_program.c
 void		free_and_exit(t_map *data, char *error_msg);
 int			close_window(t_map *data);
@@ -151,6 +166,7 @@ void		render_frame(t_map *data);
 void		put_pixel_to_image(t_img_d *img, int x, int y, int color);
 //render: map.c
 void		render_walls(t_map *data);
+void		init_textures(t_map *data);
 //utils: ray_map.c
 void		init_ray(t_map *data, t_ray *ray, int x);
 void		perform_dda(t_map *data, t_ray *ray);

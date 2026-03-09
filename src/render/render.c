@@ -6,7 +6,7 @@
 /*   By: xviladri <xviladri@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 18:16:12 by xviladri          #+#    #+#             */
-/*   Updated: 2026/03/09 19:19:41 by xviladri         ###   ########.fr       */
+/*   Updated: 2026/03/09 19:34:52 by xviladri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	init_graphics(t_map *data)
 	if (!data->win_ptr)
 		free_and_exit(data, "Error al crear la ventana");
 	init_image(data);
+	init_textures(data);
 	render_frame(data);
 	mlx_hook(data->win_ptr, ON_DESTROY, 0, close_window, data);
 	mlx_hook(data->win_ptr, ON_KEYPRESS, 1L << 0, key_press, data);
