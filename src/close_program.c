@@ -10,18 +10,34 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/cub3d.h"
+#include "../inc/cub3d.h"
 
-//MANEJO DE ERRORES Y LIMPIEZA
+// Se llama al hacer clic en la X de la ventana (ON_DESTROY)
+// mlx_hook espera que devuelva int
+int	close_window(t_map *data)
+{
+	free_and_exit(data, "Window closed by user");
+	return (0); // nunca llega aquí (free_and_exit llama a exit())
+}
+
+// MANEJO DE ERRORES Y LIMPIEZA
 void	free_and_exit(t_map *data, char *error_msg)
 {
-	printf("Error: llamamos a la funcion free_and_exit.\n%s\n", error_msg);
+	ft_putstr_fd("Error\n", 2);
+	ft_putstr_fd(error_msg, 2);
+	ft_putstr_fd("\n", 2);
 	if (data)
 	{
-		//Ayoub: anyadir los free() a medida que reservemos memoria:
-		//if (data -> cardinal.no) free(data->caridnal.no);
-		//if (data -> map) free_matrix(data->map);
-		// etc...
+		if (data->cardinal.no)
+			free(data->cardinal.no);
+		if (data->cardinal.so)
+			free(data->cardinal.so);
+		if (data->cardinal.we)
+			free(data->cardinal.we);
+		if (data->cardinal.ea)
+			free(data->cardinal.ea);
+		// TODO: free(data->map) cuando tengas free_matrix
+		// TODO: free(data->imgs) cuando estén las imágenes
 	}
-	exit(1);//salir con error
+	exit(1);
 }

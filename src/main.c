@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "../inc/cub3d.h"
-#include "../libs/minilibx-linux/mlx.h"
-#include <stdio.h>
-#include <stdlib.h> // para la función exit()
+//#include "../libs/minilibx-linux/mlx.h"
+//#include <stdio.h>
+//#include <stdlib.h> // para la función exit()
 
-#define ESC_KEY 65307//es la tecla ESC en Linux
+//#define ESC_KEY 65307//es la tecla ESC en Linux
 
 //1. INICIALIZAMOS LA ESTRUCTURA: ponemos todo a NULL y 0. Asi cuando hacemos free() de punteros con basura de memoria, el programa no da seg fault
 void	init_map_data(t_map *data)
@@ -83,5 +83,18 @@ int	main(int argc, char **argv)
 		printf("[%d]: %s\n", i, data.map[i]);
 		i++;
 	}
+	// Inicializar MLX + ventana + player
+	init_mlx(&data);
+
+	// Crear imagen de render y cargar texturas
+	init_images(&data);
+	// Registrar eventos
+	mlx_hook(data.win_ptr, ON_KEYPRESS,   0, key_press,   &data); // tecla pulsada
+	mlx_hook(data.win_ptr, ON_KEYRELEASE, 0, key_release, &data); // tecla soltada
+	mlx_hook(data.win_ptr, ON_DESTROY,    0, close_window, &data); // clic X
+	// Registrar el bucle: esta función se llama cada frame
+	mlx_loop_hook(data.mlx_ptr, game_loop, &data);
+	// Arrancar el bucle infinito (no retorna nunca)
+	mlx_loop(data.mlx_ptr);
 	return (0);
 }

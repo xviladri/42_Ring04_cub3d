@@ -27,7 +27,7 @@ MLX_FLAGS   = -L$(MLX_DIR) -lmlx -L/usr/lib -lXext -lX11 -lm -lz
 # Archivos fuente
 SRC_DIR     = src
 OBJ_DIR     = obj
-SRC_FILES   = main.c close_program.c parsing/parse_cub.c parsing/map_textures.c parsing/parse_colors.c parsing/map.c parsing/map_checks.c parsing/flood_fill.c
+SRC_FILES   = main.c close_program.c parsing/parse_cub.c parsing/map_textures.c parsing/parse_colors.c parsing/map.c parsing/map_checks.c parsing/flood_fill.c draw_utils.c game_loop.c init.c init_img.c keys.c 
 
 SRCS        = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS        = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))

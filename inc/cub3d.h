@@ -28,7 +28,8 @@
 # define ON_KEYPRESS 2
 # define ON_DESTROY 17
 # define ON_KEYRELEASE 3
-# define ESC 65307
+//# define ESC 65307
+#define ESC_KEY 65307//es la tecla ESC en Linux
 
 # define K_LEFT 65361
 # define K_RIGHT 65363
@@ -55,6 +56,7 @@ typedef struct s_img_d
 
 typedef struct s_player
 {
+	char	dir;
 	double	speed;
 	double	pos_x;
 	double	pos_y;
@@ -144,4 +146,12 @@ void		save_player_pos(t_map *data, int x, int y, int *player_count);
 void		check_map_elements(t_map *data);
 //parsing: flood_fill.c
 void		check_map_closed(t_map *data);
+
+void	init_mlx(t_map *data);
+void	init_player_dir(t_map *data);
+void	init_images(t_map *data);
+int		key_press(int keycode, t_map *data);
+int		key_release(int keycode, t_map *data);
+int		game_loop(t_map *data);
+int		close_window(t_map *data);
 #endif
