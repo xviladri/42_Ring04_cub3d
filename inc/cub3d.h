@@ -6,7 +6,7 @@
 /*   By: xviladri <xviladri@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 16:53:08 by xviladri          #+#    #+#             */
-/*   Updated: 2026/03/09 18:34:13 by xviladri         ###   ########.fr       */
+/*   Updated: 2026/03/09 19:53:05 by xviladri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef CUB3D_H 
@@ -29,10 +29,8 @@
 # define ON_DESTROY 17
 # define ON_KEYRELEASE 3
 # define ESC 65307
-
-# define K_LEFT 65361
-# define K_RIGHT 65363
-
+# define KEY_LEFT 65361
+# define KEY_RIGHT 65363
 # define KEY_A 97
 # define KEY_D 100
 # define KEY_S 115
@@ -72,26 +70,26 @@ typedef struct s_cardinal
 	char		*ea;
 }					t_cardinal;
 
-typedef struct s_raycast
+typedef struct s_ray
 {
 	double	camera_x;
-	double	ray_dir_x;
-	double	ray_dir_y;
+	double	dir_x;
+	double	dir_y;
 	int		map_x;
 	int		map_y;
 	double	side_dist_x;
 	double	side_dist_y;
 	double	delta_dist_x;
 	double	delta_dist_y;
+	double	perp_wall_dist;
 	int		step_x;
 	int		step_y;
 	int		hit;
 	int		side;
-	double	perp_wall_dist;
 	int		line_height;
 	int		draw_start;
 	int		draw_end;
-}	t_raycast;
+}	t_ray;
 
 typedef struct s_keys
 {
@@ -102,6 +100,18 @@ typedef struct s_keys
 	int	rotateleft;
 	int	rotateright;
 }	t_keys;
+
+//AYOUB: Estructura para guardar los datos de una textura .xpm
+typedef struct s_tex
+{
+	void	*img_ptr;
+	char	*addr;
+	int		bpp;
+	int		line_len;
+	int		endian;
+	int		width;
+	int		height;
+}	t_tex;
 
 typedef struct s_map
 {
@@ -119,14 +129,16 @@ typedef struct s_map
 	t_cardinal		cardinal;
 	unsigned int	map_width;
 	unsigned int	map_height;
+	t_tex	tex_n;
+	t_tex	tex_s;
+	t_tex	tex_e;
+	t_tex	tex_w;
 }	t_map;
 
 //ANYADIMOS LAS FUNCIONES AQUI: ponemos el archivo donde se encuentran
-
 //src: close_program.c
 void		free_and_exit(t_map *data, char *error_msg);
 int			close_window(t_map *data);
-int			key_press(int keycode, t_map *data);
 //parsing: parse_cub.c
 void		parse_cub_file(char *file_path, t_map *data);
 //parsing: map_textures.c
@@ -149,6 +161,19 @@ void		check_map_elements(t_map *data);
 void		check_map_closed(t_map *data);
 //render: render.c
 void		init_graphics(t_map *data);
+void		render_frame(t_map *data);
 //render: render_utils.c
 void		put_pixel_to_image(t_img_d *img, int x, int y, int color);
+//render: map.c
+void		render_walls(t_map *data);
+//render: textures.c
+void	init_textures(t_map *data);
+//utils: ray_map.c
+void		init_ray(t_map *data, t_ray *ray, int x);
+void		perform_dda(t_map *data, t_ray *ray);
+//moves: player_move.c
+void		move_player(t_map *data, double move_x, double move_y);
+void		rotate_player(t_map *data, double rot_dir);
+//moves: key_hooks.c:
+int			key_press(int keycode, t_map *data);
 #endif
