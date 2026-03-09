@@ -6,7 +6,7 @@
 /*   By: xviladri <xviladri@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 18:16:12 by xviladri          #+#    #+#             */
-/*   Updated: 2026/03/09 19:10:31 by xviladri         ###   ########.fr       */
+/*   Updated: 2026/03/09 19:19:41 by xviladri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,15 @@ static void	init_image(t_map *data)
 			&data->imgs->bpp, &data->imgs->line_length, &data->imgs->endian);
 }
 
+//Dibuja un "frame" completo: Fondo, muros y lo vuelca en la ventana
+void	render_frame(t_map *data)
+{
+	render_background(data);
+	render_walls(data);
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
+		data->imgs->img_ptr, 0, 0);
+}
+
 // Inicia la ventana, crea la memoria para el "dibujo" y activa los hooks definidos en el close_window.c
 void	init_graphics(t_map *data)
 {
@@ -57,10 +66,7 @@ void	init_graphics(t_map *data)
 	if (!data->win_ptr)
 		free_and_exit(data, "Error al crear la ventana");
 	init_image(data);
-	render_background(data);
-	render_walls(data);
-	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
-			data->imgs->img_ptr, 0, 0);
+	render_frame(data);
 	mlx_hook(data->win_ptr, ON_DESTROY, 0, close_window, data);
 	mlx_hook(data->win_ptr, ON_KEYPRESS, 1L << 0, key_press, data);
 	printf("Motor 3D ON. Pulsa ESC para salir.\n");

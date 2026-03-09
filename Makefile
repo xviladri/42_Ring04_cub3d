@@ -6,7 +6,7 @@
 #    By: xviladri <xviladri@student.42barcelona.co  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/28 17:01:19 by xviladri          #+#    #+#              #
-#    Updated: 2026/03/09 19:08:20 by xviladri         ###   ########.fr        #
+#    Updated: 2026/03/09 19:27:43 by xviladri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME        = cub3D
@@ -27,7 +27,7 @@ MLX_FLAGS   = -L$(MLX_DIR) -lmlx -L/usr/lib -lXext -lX11 -lm -lz
 # Archivos fuente
 SRC_DIR     = src
 OBJ_DIR     = obj
-SRC_FILES   = main.c close_program.c parsing/parse_cub.c parsing/map_textures.c parsing/parse_colors.c parsing/map.c parsing/map_checks.c parsing/flood_fill.c render/render.c render/render_utils.c render/map.c utils/ray_map.c
+SRC_FILES   = main.c close_program.c parsing/parse_cub.c parsing/map_textures.c parsing/parse_colors.c parsing/map.c parsing/map_checks.c parsing/flood_fill.c render/render.c render/render_utils.c render/map.c utils/ray_map.c moves/player_move.c moves/key_hooks.c
 
 SRCS        = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS        = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))

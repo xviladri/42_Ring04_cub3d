@@ -6,7 +6,7 @@
 /*   By: xviladri <xviladri@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 18:39:50 by xviladri          #+#    #+#             */
-/*   Updated: 2026/03/09 18:14:09 by xviladri         ###   ########.fr       */
+/*   Updated: 2026/03/09 19:20:57 by xviladri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,5 @@ int	close_window(t_map *data)
 		free(data->mlx_ptr);
 	}
 	exit(0);
-	return (0);
-}
-
-// 3. PARA ESCUCHAR EL TECLADO
-int	key_press(int keycode, t_map *data)
-{
-	if (keycode == ESC)
-		close_window(data);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: xviladri <xviladri@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 16:53:08 by xviladri          #+#    #+#             */
-/*   Updated: 2026/03/09 18:56:16 by xviladri         ###   ########.fr       */
+/*   Updated: 2026/03/09 19:28:24 by xviladri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef CUB3D_H 
@@ -29,10 +29,8 @@
 # define ON_DESTROY 17
 # define ON_KEYRELEASE 3
 # define ESC 65307
-
-# define K_LEFT 65361
-# define K_RIGHT 65363
-
+# define KEY_LEFT 65361
+# define KEY_RIGHT 65363
 # define KEY_A 97
 # define KEY_D 100
 # define KEY_S 115
@@ -126,7 +124,6 @@ typedef struct s_map
 //src: close_program.c
 void		free_and_exit(t_map *data, char *error_msg);
 int			close_window(t_map *data);
-int			key_press(int keycode, t_map *data);
 //parsing: parse_cub.c
 void		parse_cub_file(char *file_path, t_map *data);
 //parsing: map_textures.c
@@ -149,6 +146,7 @@ void		check_map_elements(t_map *data);
 void		check_map_closed(t_map *data);
 //render: render.c
 void		init_graphics(t_map *data);
+void		render_frame(t_map *data);
 //render: render_utils.c
 void		put_pixel_to_image(t_img_d *img, int x, int y, int color);
 //render: map.c
@@ -156,4 +154,9 @@ void		render_walls(t_map *data);
 //utils: ray_map.c
 void		init_ray(t_map *data, t_ray *ray, int x);
 void		perform_dda(t_map *data, t_ray *ray);
+//moves: player_move.c
+void		move_player(t_map *data, double move_x, double move_y);
+void		rotate_player(t_map *data, double rot_dir);
+//moves: key_hooks.c:
+int			key_press(int keycode, t_map *data);
 #endif
