@@ -6,7 +6,7 @@
 /*   By: xviladri <xviladri@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 16:53:08 by xviladri          #+#    #+#             */
-/*   Updated: 2026/03/09 18:34:13 by xviladri         ###   ########.fr       */
+/*   Updated: 2026/03/09 18:56:16 by xviladri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef CUB3D_H 
@@ -72,26 +72,26 @@ typedef struct s_cardinal
 	char		*ea;
 }					t_cardinal;
 
-typedef struct s_raycast
+typedef struct s_ray
 {
 	double	camera_x;
-	double	ray_dir_x;
-	double	ray_dir_y;
+	double	dir_x;
+	double	dir_y;
 	int		map_x;
 	int		map_y;
 	double	side_dist_x;
 	double	side_dist_y;
 	double	delta_dist_x;
 	double	delta_dist_y;
+	double	perp_wall_dist;
 	int		step_x;
 	int		step_y;
 	int		hit;
 	int		side;
-	double	perp_wall_dist;
 	int		line_height;
 	int		draw_start;
 	int		draw_end;
-}	t_raycast;
+}	t_ray;
 
 typedef struct s_keys
 {
@@ -151,4 +151,9 @@ void		check_map_closed(t_map *data);
 void		init_graphics(t_map *data);
 //render: render_utils.c
 void		put_pixel_to_image(t_img_d *img, int x, int y, int color);
+//render: map.c
+void		render_walls(t_map *data);
+//utils: ray_map.c
+void		init_ray(t_map *data, t_ray *ray, int x);
+void		perform_dda(t_map *data, t_ray *ray);
 #endif
