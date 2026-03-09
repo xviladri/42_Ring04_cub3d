@@ -6,7 +6,7 @@
 /*   By: xviladri <xviladri@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 16:49:15 by xviladri          #+#    #+#             */
-/*   Updated: 2026/03/08 16:28:21 by xviladri         ###   ########.fr       */
+/*   Updated: 2026/03/09 18:23:21 by xviladri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../inc/cub3d.h"
@@ -62,6 +62,8 @@ int	main(int argc, char **argv)
 	printf("FUNCIONA: los argumentos son correctos. File: %s\n", argv[1]);
 	//Lee todo el archivo y lo guarda en la struct:
 	parse_cub_file(argv[1], &data);
+	//Cuadramos el mapa para que sea un rectangulo perfecto:
+	pad_map(&data);
 	//Validamos el mapa que acabamos de leer:
 	check_map_elements(&data);
 	check_map_closed(&data);
@@ -75,12 +77,13 @@ int	main(int argc, char **argv)
 	printf("Color del Techo (int): %d\n", data.ceiling_color);
 	printf("------------------------------------\n\n");
 	//4.XENIA: hacer la funcion: init_graphics(&dat);
+	init_graphics(&data);
 	printf("----- EL MAPA 2D -----\n");
 	int	i;
 	i = 0;
 	while (data.map && data.map[i])
 	{
-		printf("[%d]: %s\n", i, data.map[i]);
+		printf("[%d]: '%s'\n", i, data.map[i]);
 		i++;
 	}
 	return (0);

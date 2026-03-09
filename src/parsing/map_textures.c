@@ -6,7 +6,7 @@
 /*   By: xviladri <xviladri@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 18:18:02 by xviladri          #+#    #+#             */
-/*   Updated: 2026/03/08 13:44:37 by xviladri         ###   ########.fr       */
+/*   Updated: 2026/03/09 17:50:37 by xviladri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,25 @@ void	process_line(char *line, t_map *data)
 	}
 }
 
-// Guarda la ruta de la textura eliminando espacios y saltos de linea */
+// Guarda la ruta de la textura y comprueba que no hay basura detras
 void	save_texture(char **dest, char *line, t_map *data)
 {
+	int	i;
+	int	start;
+
 	if (*dest != NULL)
 		free_and_exit(data, "Textura duplicada en el archivo .cub");
-	*dest = ft_strtrim(line, " \n\t");
+	i = 0;
+	while (line[i] == ' ' || line[i] == '\t')
+		i++;
+	start = i;
+	while (line[i] && line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
+		i++;
+	*dest = ft_substr(line, start, i - start);
 	if (!*dest)
 		free_and_exit(data, "Error de malloc al guardar la textura");
+	while (line[i] == ' ' || line[i] == '\t')
+		i++;
+	if (line[i] != '\n' && line[i] != '\0')
+		free_and_exit(data, "Error: Basura despues de la ruta de la textura");
 }

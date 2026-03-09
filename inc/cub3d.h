@@ -6,7 +6,7 @@
 /*   By: xviladri <xviladri@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 16:53:08 by xviladri          #+#    #+#             */
-/*   Updated: 2026/03/08 16:26:38 by xviladri         ###   ########.fr       */
+/*   Updated: 2026/03/09 18:34:13 by xviladri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef CUB3D_H 
@@ -123,8 +123,10 @@ typedef struct s_map
 
 //ANYADIMOS LAS FUNCIONES AQUI: ponemos el archivo donde se encuentran
 
-//src:
+//src: close_program.c
 void		free_and_exit(t_map *data, char *error_msg);
+int			close_window(t_map *data);
+int			key_press(int keycode, t_map *data);
 //parsing: parse_cub.c
 void		parse_cub_file(char *file_path, t_map *data);
 //parsing: map_textures.c
@@ -139,9 +141,14 @@ int			extract_color(char *line, t_map *data);
 void		save_color(int *dest, char *line, t_map *data, int is_floor);
 //parsing: map.c
 void		add_line_to_map(t_map *data, char *line);
+void		pad_map(t_map *data);
 //parsing: map_checks.c
 void		save_player_pos(t_map *data, int x, int y, int *player_count);
 void		check_map_elements(t_map *data);
 //parsing: flood_fill.c
 void		check_map_closed(t_map *data);
+//render: render.c
+void		init_graphics(t_map *data);
+//render: render_utils.c
+void		put_pixel_to_image(t_img_d *img, int x, int y, int color);
 #endif
