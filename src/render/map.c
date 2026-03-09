@@ -6,7 +6,7 @@
 /*   By: xviladri <xviladri@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 18:51:27 by xviladri          #+#    #+#             */
-/*   Updated: 2026/03/09 18:52:18 by xviladri         ###   ########.fr       */
+/*   Updated: 2026/03/09 19:13:02 by xviladri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	draw_vertical_line(t_map *data, t_ray *ray, int x)
 		ray->draw_start = 0;
 	ray->draw_end = ray->line_height / 2 + HEIGHT / 2;
 	if (ray->draw_end >= HEIGHT)
-		ray->draw_end = HEIGHT - 1;
+		ray->draw_end = HEIGHT;
 	if (ray->side == 1)
 		color = 0x555555;
 	else
