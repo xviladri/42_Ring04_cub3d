@@ -6,7 +6,7 @@
 /*   By: xviladri <xviladri@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 16:53:08 by xviladri          #+#    #+#             */
-/*   Updated: 2026/03/09 19:33:30 by xviladri         ###   ########.fr       */
+/*   Updated: 2026/03/09 19:53:05 by xviladri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef CUB3D_H 
@@ -166,7 +166,8 @@ void		render_frame(t_map *data);
 void		put_pixel_to_image(t_img_d *img, int x, int y, int color);
 //render: map.c
 void		render_walls(t_map *data);
-void		init_textures(t_map *data);
+//render: textures.c
+void	init_textures(t_map *data);
 //utils: ray_map.c
 void		init_ray(t_map *data, t_ray *ray, int x);
 void		perform_dda(t_map *data, t_ray *ray);
