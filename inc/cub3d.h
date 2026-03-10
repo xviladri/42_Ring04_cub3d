@@ -53,6 +53,7 @@ typedef struct s_img_d
 
 typedef struct s_player
 {
+	char	dir;
 	double	speed;
 	double	pos_x;
 	double	pos_y;

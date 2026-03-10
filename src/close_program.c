@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/cub3d.h"
+#include "../inc/cub3d.h"
 
 // Destruye una textura t_tex si fue cargada
 static void	free_texture(t_map *data, t_tex *tex)
