@@ -10,13 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "../inc/cub3d.h"
-#include "../libs/minilibx-linux/mlx.h"
-#include <stdio.h>
-#include <stdlib.h> // para la función exit()
 
-#define ESC_KEY 65307//es la tecla ESC en Linux
-
-//1. INICIALIZAMOS LA ESTRUCTURA: ponemos todo a NULL y 0. Asi cuando hacemos free() de punteros con basura de memoria, el programa no da seg fault
+// Inicializa la struct entera a 0/NULL para evitar seg faults al hacer free()
 void	init_map_data(t_map *data)
 {
 	data->mlx_ptr = NULL;
@@ -34,57 +29,32 @@ void	init_map_data(t_map *data)
 	data->map_width = 0;
 	data->map_height = 0;
 	data->map_started = 0;
-	//faltaria inicializar t_player y t_keys (si no cabe aqui, en otra funcion (por la Norminette).
+	data->player.dir = 0;
 }
 
-//3. VALIDAR ARGUMENTOS
+// Valida que se pase exactamente 1 argumento con extension .cub
 void	check_args(int argc, char **argv, t_map *data)
 {
 	int	len;
-	//Regla 1: solo deben haber 2 aargs (./cub3D y el mapa)
+
 	if (argc != 2)
 		free_and_exit(data, "Invalid num. of arguments. Use: ./cub3D <map.cub>");
-	//Regla 2: el archivo q le pasamos tiene que terminar en ".cub"
 	len = ft_strlen(argv[1]);
 	if (len < 4 || ft_strncmp(&argv[1][len - 4], ".cub", 4) != 0)
 		free_and_exit(data, "The file must have the extension .cub");
 }
 
-//PUNTO DE ENTRADA
+// PUNTO DE ENTRADA
 int	main(int argc, char **argv)
 {
 	t_map	data;
-	//1. inicializamos todo a 0 de forma segura
+
 	init_map_data(&data);
-	//2. comprobamos argumentos
 	check_args(argc, argv, &data);
-	//Si llegmos aqui, los argumentos estan perfectos
-	printf("FUNCIONA: los argumentos son correctos. File: %s\n", argv[1]);
-	//Lee todo el archivo y lo guarda en la struct:
 	parse_cub_file(argv[1], &data);
-	//Cuadramos el mapa para que sea un rectangulo perfecto:
 	pad_map(&data);
-	//Validamos el mapa que acabamos de leer:
 	check_map_elements(&data);
 	check_map_closed(&data);
-	//* Chivatos para comprobar que se ha guardado bien: llegamos aqui si check_map_elements esta bien):
-	printf("\n--- DATOS GUARDADOS EN LA STRUCT ---\n");
-	printf("Ruta Norte: '%s'\n", data.cardinal.no);
-	printf("Ruta Sur: '%s'\n", data.cardinal.so);
-	printf("Ruta Oeste: '%s'\n", data.cardinal.we);
-	printf("Ruta Este: '%s'\n", data.cardinal.ea);
-	printf("Color del Suelo (int): %d\n", data.floor_color);
-	printf("Color del Techo (int): %d\n", data.ceiling_color);
-	printf("------------------------------------\n\n");
-	//4.XENIA: hacer la funcion: init_graphics(&dat);
 	init_graphics(&data);
-	printf("----- EL MAPA 2D -----\n");
-	int	i;
-	i = 0;
-	while (data.map && data.map[i])
-	{
-		printf("[%d]: '%s'\n", i, data.map[i]);
-		i++;
-	}
 	return (0);
 }
