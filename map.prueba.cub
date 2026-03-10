@@ -1,11 +1,15 @@
-NO ./ruta_norte
-SO ./ruta_sur	
-WE ./ruta_oeste
-EA ./ruta_este
+NO ./textures/redbrick.xpm
+SO ./textures/wood.xpm
+WE ./textures/greystone.xpm
+EA ./textures/purplestone.xpm
 
 F 220,100,0
-C 225,30,0
+C 0,150,220
 
 111111111111
-100E01
-111111
+100E00000001
+100000000001
+100000000001
+100000000001
+100000000001
+111111111111

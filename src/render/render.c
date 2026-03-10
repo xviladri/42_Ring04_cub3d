@@ -12,7 +12,7 @@
 
 #include "../../inc/cub3d.h"
 
-// Dibuja la mitad superior (Techo-celing) y la mitad inferior (Suelo-floor)
+// Dibuja techo (mitad superior) y suelo (mitad inferior) con colores planos
 static void	render_background(t_map *data)
 {
 	int	x;
@@ -34,7 +34,7 @@ static void	render_background(t_map *data)
 	}
 }
 
-// Funcion auxiliar de init_graphics para inicializar la imagen en memoria
+// Crea la imagen en memoria donde dibujaremos cada frame
 static void	init_image(t_map *data)
 {
 	data->imgs = malloc(sizeof(t_img_d));
@@ -47,7 +47,7 @@ static void	init_image(t_map *data)
 			&data->imgs->bpp, &data->imgs->line_length, &data->imgs->endian);
 }
 
-//Dibuja un "frame" completo: Fondo, muros y lo vuelca en la ventana
+// Dibuja 1 frame completo: fondo + paredes con texturas + vuelca a pantalla
 void	render_frame(t_map *data)
 {
 	render_background(data);
@@ -56,20 +56,28 @@ void	render_frame(t_map *data)
 		data->imgs->img_ptr, 0, 0);
 }
 
-// Inicia la ventana, crea la memoria para el "dibujo" y activa los hooks definidos en el close_window.c
+// game_loop: se llama cada frame por mlx_loop_hook
+// Aqui es donde actualizamos el estado y redibujamos
+static int	game_loop(t_map *data)
+{
+	render_frame(data);
+	return (0);
+}
+
+// Inicializa toda la parte grafica y arranca el bucle del juego
 void	init_graphics(t_map *data)
 {
 	data->mlx_ptr = mlx_init();
 	if (!data->mlx_ptr)
 		free_and_exit(data, "Error al iniciar MiniLibX");
-	data->win_ptr = mlx_new_window(data->mlx_ptr, WIDTH, HEIGHT, "cub3D del equipo STDIN OR STDOUT");
+	data->win_ptr = mlx_new_window(data->mlx_ptr, WIDTH, HEIGHT,
+			"cub3D del equipo STDIN OR STDOUT");
 	if (!data->win_ptr)
 		free_and_exit(data, "Error al crear la ventana");
 	init_image(data);
 	init_textures(data);
-	render_frame(data);
 	mlx_hook(data->win_ptr, ON_DESTROY, 0, close_window, data);
 	mlx_hook(data->win_ptr, ON_KEYPRESS, 1L << 0, key_press, data);
-	printf("Motor 3D ON. Pulsa ESC para salir.\n");
+	mlx_loop_hook(data->mlx_ptr, game_loop, data);
 	mlx_loop(data->mlx_ptr);
 }
