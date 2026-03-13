@@ -177,4 +177,6 @@ void		move_player(t_map *data, double move_x, double move_y);
 void		rotate_player(t_map *data, double rot_dir);
 //moves: key_hooks.c:
 int			key_press(int keycode, t_map *data);
+int			key_release(int keycode, t_map *data);
+int			focus_out(t_map *data);
 #endif

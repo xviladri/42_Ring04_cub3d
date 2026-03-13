@@ -30,6 +30,12 @@ void	init_map_data(t_map *data)
 	data->map_height = 0;
 	data->map_started = 0;
 	data->player.dir = 0;
+	data->keys.w = 0;
+	data->keys.s = 0;
+	data->keys.a = 0;
+	data->keys.d = 0;
+	data->keys.rotateleft = 0;
+	data->keys.rotateright = 0;
 }
 
 // Valida que se pase exactamente 1 argumento con extension .cub

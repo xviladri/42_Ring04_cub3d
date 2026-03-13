@@ -1,9 +1,9 @@
 NO ./textures/redbrick.xpm
 SO ./textures/wood.xpm
 WE ./textures/greystone.xpm
-EA ./textures/purplestone.xpm
+EA ./textures/test3.xpm
 
-F 220,100,0
+F 120,100,0
 C 0,150,220
 
 111111111111

@@ -55,13 +55,51 @@ void	render_frame(t_map *data)
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
 		data->imgs->img_ptr, 0, 0);
 }
+static void apply_movement(t_map *data)
+{
+    double speed = 0.05; // Ajusta tu velocidad aquí
+    double rot_speed = 0.02;
+    double move_x = 0.0;
+    double move_y = 0.0;
 
+    // 1. Acumulamos el vector de movimiento (Sin movernos aún)
+    if (data->keys.w)
+    {
+        move_x += data->player.dir_x * speed;
+        move_y += data->player.dir_y * speed;
+    }
+    if (data->keys.s)
+    {
+        move_x -= data->player.dir_x * speed;
+        move_y -= data->player.dir_y * speed;
+    }
+    if (data->keys.a)
+    {
+        move_x += data->player.dir_y * speed;
+        move_y -= data->player.dir_x * speed;
+    }
+    if (data->keys.d)
+    {
+        move_x -= data->player.dir_y * speed;
+        move_y += data->player.dir_x * speed;
+    }
+
+    // 2. Aplicamos la colisión UNA SOLA VEZ con el vector resultante
+    if (move_x != 0.0 || move_y != 0.0)
+        move_player(data, move_x, move_y);
+
+    // 3. Rotación
+    if (data->keys.rotateright) rotate_player(data, rot_speed);
+    if (data->keys.rotateleft) rotate_player(data, -rot_speed);
+}
 // game_loop: se llama cada frame por mlx_loop_hook
 // Aqui es donde actualizamos el estado y redibujamos
-static int	game_loop(t_map *data)
+// Aplica movimientos simultáneos
+static int game_loop(t_map *data)
 {
-	render_frame(data);
-	return (0);
+    apply_movement(data); 
+    render_frame(data);
+	return(0);
 }
 
 // Inicializa toda la parte grafica y arranca el bucle del juego
@@ -76,8 +114,10 @@ void	init_graphics(t_map *data)
 		free_and_exit(data, "Error al crear la ventana");
 	init_image(data);
 	init_textures(data);
-	mlx_hook(data->win_ptr, ON_DESTROY, 0, close_window, data);
 	mlx_hook(data->win_ptr, ON_KEYPRESS, 1L << 0, key_press, data);
+	mlx_hook(data->win_ptr, ON_KEYRELEASE, 1L<<1, key_release, data);
+	mlx_hook(data->win_ptr, 10, 1L<<21, focus_out, data);
+	mlx_hook(data->win_ptr, ON_DESTROY, 0, close_window, data);
 	mlx_loop_hook(data->mlx_ptr, game_loop, data);
 	mlx_loop(data->mlx_ptr);
 }

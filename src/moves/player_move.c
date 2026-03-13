@@ -12,43 +12,53 @@
 
 #include "../../inc/cub3d.h"
 
-//1. Avanza o retrocede comprobando que la casilla de destino sea un '0'
-void	move_player(t_map *data, double move_x, double move_y)
+// Nueva funcion auxiliar: Devuelve 1 si el jugador cabe ahi, 0 si choca
+static int is_valid_pos(t_map *data, double x, double y)
 {
-	int	map_x;
-	int	map_y;
+    double margin = 0.4; // El radio de tu jugador
 
-	map_x = (int)(data->player.pos_x + move_x);
-	map_y = (int)(data->player.pos_y + move_y);
-	
-	// Colision en el eje X
-	if (data->map[(int)data->player.pos_y][map_x] == '0')
-		data->player.pos_x += move_x;
-	// Colision en el eje Y
-	if (data->map[map_y][(int)data->player.pos_x] == '0')
-		data->player.pos_y += move_y;
+    // Comprobamos las 4 esquinas de nuestra caja de colision (Hitbox)
+    if (data->map[(int)(y - margin)][(int)(x - margin)] != '0')
+        return (0);
+    if (data->map[(int)(y - margin)][(int)(x + margin)] != '0')
+        return (0);
+    if (data->map[(int)(y + margin)][(int)(x - margin)] != '0')
+        return (0);
+    if (data->map[(int)(y + margin)][(int)(x + margin)] != '0')
+        return (0);
+        
+    return (1); // Las 4 esquinas estan libres, puedes pasar!
+}
+
+// Tu funcion de movimiento ahora queda super limpia y a prueba de balas
+void move_player(t_map *data, double move_x, double move_y)
+{
+    // 1. Intentamos movernos en el eje X
+    if (is_valid_pos(data, data->player.pos_x + move_x, data->player.pos_y))
+        data->player.pos_x += move_x;
+        
+    // 2. Intentamos movernos en el eje Y
+    if (is_valid_pos(data, data->player.pos_x, data->player.pos_y + move_y))
+        data->player.pos_y += move_y;
 }
 
 //2. Aplica la matriz de rotacion a los vectores de direccion y de plano
-void	rotate_player(t_map *data, double rot_dir)
+// Ahora recibe directamente la velocidad (positiva o negativa)
+void rotate_player(t_map *data, double rot_speed)
 {
-	double	rot_speed;
-	double	old_dir_x;
-	double	old_plane_x;
+	double old_dir_x;
+	double old_plane_x;
 
-	rot_speed = 0.1 * rot_dir;/* 0.1 radianes de velocidad de giro */
+	// ELIMINAMOS la linea de: rot_speed = 0.1 * rot_dir;
+    
 	old_dir_x = data->player.dir_x;
 	old_plane_x = data->player.plane_x;
 	
 	// Rotar el vector de direccion
-	data->player.dir_x = data->player.dir_x * cos(rot_speed) 
-		- data->player.dir_y * sin(rot_speed);
-	data->player.dir_y = old_dir_x * sin(rot_speed) 
-		+ data->player.dir_y * cos(rot_speed);
-		
-	// Rotar el plano de la camara (FOV)
-	data->player.plane_x = data->player.plane_x * cos(rot_speed) 
-		- data->player.plane_y * sin(rot_speed);
-	data->player.plane_y = old_plane_x * sin(rot_speed) 
-		+ data->player.plane_y * cos(rot_speed);
+	data->player.dir_x = data->player.dir_x * cos(rot_speed) - data->player.dir_y * sin(rot_speed);
+	data->player.dir_y = old_dir_x * sin(rot_speed) + data->player.dir_y * cos(rot_speed);
+	
+	// Rotar el plano de camara
+	data->player.plane_x = data->player.plane_x * cos(rot_speed) - data->player.plane_y * sin(rot_speed);
+	data->player.plane_y = old_plane_x * sin(rot_speed) + data->player.plane_y * cos(rot_speed);
 }
