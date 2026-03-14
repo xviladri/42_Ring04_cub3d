@@ -1,12 +1,13 @@
-F 97,145,234
-C 82 , 255,1
+F 97,145,1
+C 82,254,1
 NO textures/north.xpm
-SO textures/north.xpm
-WE textures/north.xpm
-EA textures/north.xpm
-111
-1W1
-101
-101
-101
-111
+SO textures/south.xpm
+WE textures/west.xpm
+EA textures/east.xpm
+11111
+10001
+10001
+1N001
+11111
+11011
+11111

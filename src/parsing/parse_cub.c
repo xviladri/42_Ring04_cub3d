@@ -12,22 +12,25 @@
 
 #include "../../inc/cub3d.h"
 
-//ABRE EL ARCHIVO, LEE LINEA A LINEA Y CIERRA EL fd AL TERMINAR
 void	parse_cub_file(char *file_path, t_map *data)
 {
-	int		fd;
 	char	*line;
 
-	fd = open(file_path, O_RDONLY);
-	if (fd < 0 )
+	data->fd = open(file_path, O_RDONLY);
+	if (data->fd < 0)
 		free_and_exit(data, ".cub file can not be open");
-	line = get_next_line(fd);
+	line = get_next_line(data->fd);
 	while (line != NULL)
 	{
 		process_line(line, data);
 		free(line);
-		line = get_next_line(fd);
+		line = get_next_line(data->fd);
 	}
-	close(fd);
-	printf("ARCHIVO LEIDO Y CERRADO CORRECTAMENTE.\n");
+	close(data->fd);
+	printf("FILE READ AND CLOSED CORRECTLY.\n");
+	if (!data->cardinal.no || !data->cardinal.so || !data->cardinal.we
+		|| !data->cardinal.ea)
+	{
+		free_and_exit(data, "Error: Missing textures on the map");
+	}
 }

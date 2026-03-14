@@ -23,7 +23,7 @@ void	add_line_to_map(t_map *data, char *line)
 		i++;
 	new_map = malloc(sizeof(char *) * (i + 2));
 	if (!new_map)
-		free_and_exit(data, "Error de malloc al guardar el mapa");
+		free_and_exit(data, "Error: malloc error saving map");
 	i = 0;
 	while (data->map && data->map[i])
 	{
@@ -63,7 +63,7 @@ static void	pad_row(t_map *data, int y)
 
 	new_row = malloc(data->map_width + 1);
 	if (!new_row)
-		free_and_exit(data, "Error de malloc al cuadrar el mapa");
+		free_and_exit(data, "Error: malloc error while squaring the map");
 	x = 0;
 	while (data->map[y][x])
 	{
@@ -77,7 +77,7 @@ static void	pad_row(t_map *data, int y)
 	data->map[y] = new_row;
 }
 
-// Convierte el mapa en un rectangulo perfecto rellenando los huecos (en el caso que le pasemos el mapa descuadrado)
+// Convierte el mapa en un rectangulo perfecto rellenando los huecos
 void	pad_map(t_map *data)
 {
 	int	y;

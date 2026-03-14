@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 #include "../inc/cub3d.h"
 
-// Inicializa la struct entera a 0/NULL para evitar seg faults al hacer free()
 void	init_map_data(t_map *data)
 {
 	data->mlx_ptr = NULL;
@@ -30,6 +29,7 @@ void	init_map_data(t_map *data)
 	data->map_height = 0;
 	data->map_started = 0;
 	data->player.dir = 0;
+	data->fd = -1;
 	data->keys.w = 0;
 	data->keys.s = 0;
 	data->keys.a = 0;
@@ -38,19 +38,18 @@ void	init_map_data(t_map *data)
 	data->keys.rotateright = 0;
 }
 
-// Valida que se pase exactamente 1 argumento con extension .cub
 void	check_args(int argc, char **argv, t_map *data)
 {
 	int	len;
 
 	if (argc != 2)
-		free_and_exit(data, "Invalid num. of arguments. Use: ./cub3D <map.cub>");
+		free_and_exit(data,
+			"Invalid num. of arguments. Use: ./cub3D <map.cub>");
 	len = ft_strlen(argv[1]);
 	if (len < 4 || ft_strncmp(&argv[1][len - 4], ".cub", 4) != 0)
 		free_and_exit(data, "The file must have the extension .cub");
 }
 
-// PUNTO DE ENTRADA
 int	main(int argc, char **argv)
 {
 	t_map	data;
@@ -60,6 +59,7 @@ int	main(int argc, char **argv)
 	parse_cub_file(argv[1], &data);
 	pad_map(&data);
 	check_map_elements(&data);
+	validate_walls(&data);
 	check_map_closed(&data);
 	init_graphics(&data);
 	return (0);

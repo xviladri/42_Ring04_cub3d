@@ -30,24 +30,22 @@ static t_tex	*get_texture(t_map *data, t_ray *ray)
 }
 
 /* 2. Calcula en que punto horizontal (X) de la textura estamos golpeando */
-static int calculate_tex_x(t_map *data, t_ray *ray, t_tex *tex)
+static int	calculate_tex_x(t_map *data, t_ray *ray, t_tex *tex)
 {
-    double wall_x;
-    int    tex_x;
+	double	wall_x;
+	int		tex_x;
 
-    if (ray->side == 0)
-        wall_x = data->player.pos_y + ray->perp_wall_dist * ray->dir_y;
-    else
-        wall_x = data->player.pos_x + ray->perp_wall_dist * ray->dir_x;
-    wall_x -= floor(wall_x);
-    tex_x = (int)(wall_x * (double)tex->width);
-    if (ray->side == 0 && ray->dir_x < 0)
-        tex_x = tex->width - tex_x - 1;
-        
-    if (ray->side == 1 && ray->dir_y > 0)
-        tex_x = tex->width - tex_x - 1;
-
-    return (tex_x);
+	if (ray->side == 0)
+		wall_x = data->player.pos_y + ray->perp_wall_dist * ray->dir_y;
+	else
+		wall_x = data->player.pos_x + ray->perp_wall_dist * ray->dir_x;
+	wall_x -= floor(wall_x);
+	tex_x = (int)(wall_x * (double)tex->width);
+	if (ray->side == 0 && ray->dir_x < 0)
+		tex_x = tex->width - tex_x - 1;
+	if (ray->side == 1 && ray->dir_y > 0)
+		tex_x = tex->width - tex_x - 1;
+	return (tex_x);
 }
 
 /* 3. Funcion auxiliar que hace el bucle de pintado (Norminette OK) */

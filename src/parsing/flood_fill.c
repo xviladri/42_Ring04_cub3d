@@ -23,7 +23,7 @@ static char	**copy_map(t_map *data)
 		i++;
 	copy = malloc(sizeof(char *) * (i + 1));
 	if (!copy)
-		free_and_exit(data, "Error de malloc al copiar el mapa");
+		free_and_exit(data, "Malloc error while copying map");
 	i = 0;
 	while (data->map[i])
 	{
@@ -37,16 +37,12 @@ static char	**copy_map(t_map *data)
 // 2. El algoritmo: Devuelve 0 si encuentra una fuga, 1 si esta cerrado
 static int	flood_fill(char **map, int x, int y)
 {
-	/* Si nos salimos de los limites de la matriz o tocamos el vacio (' ') */
-	if (y < 0 || !map[y] || x < 0 || x >= (int)ft_strlen(map[y]) 
+	if (y < 0 || !map[y] || x < 0 || x >= (int)ft_strlen(map[y])
 		|| map[y][x] == ' ')
 		return (0);
-	/* Si chocamos contra un muro o una casilla ya rellenada, paramos */
 	if (map[y][x] == '1' || map[y][x] == 'F')
 		return (1);
-	/* Marcamos la casilla como rellenada (F de Filled) */
 	map[y][x] = 'F';
-	/* Inundamos en las 4 direcciones (Derecha, Izquierda, Abajo, Arriba) */
 	if (!flood_fill(map, x + 1, y) || !flood_fill(map, x - 1, y)
 		|| !flood_fill(map, x, y + 1) || !flood_fill(map, x, y - 1))
 		return (0);
@@ -67,5 +63,5 @@ void	check_map_closed(t_map *data)
 	is_closed = flood_fill(map_copy, start_x, start_y);
 	free_matrix(map_copy);
 	if (!is_closed)
-		free_and_exit(data, "Error: El mapa no esta cerrado por muros");
+		free_and_exit(data, "Error: The map is not enclosed by walls");
 }
