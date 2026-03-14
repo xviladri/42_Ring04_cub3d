@@ -12,7 +12,22 @@
 
 #include "../../inc/cub3d.h"
 
-// Libera un array bidimensional (resultado de ft_split)
+static int	count_commas(char *line)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (line[i])
+	{
+		if (line[i] == ',')
+			count++;
+		i++;
+	}
+	return (count);
+}
+
 void	free_matrix(char **matrix)
 {
 	int	i;
@@ -28,7 +43,6 @@ void	free_matrix(char **matrix)
 	free(matrix);
 }
 
-//  Valida que el string solo tenga numeros y espacios
 int	is_valid_number(char *str)
 {
 	int	i;
@@ -40,15 +54,14 @@ int	is_valid_number(char *str)
 		return (0);
 	while (str[i])
 	{
-		if (!ft_isdigit(str[i]) && str[i] != ' ' 
-			&& str[i] != '\t' && str[i] != '\n')
+		if (!ft_isdigit(str[i]) && str[i] != ' ' && str[i] != '\t'
+			&& str[i] != '\n')
 			return (0);
 		i++;
 	}
 	return (1);
 }
 
-// Extrae, valida y convierte R, G, B en un solo int
 int	extract_color(char *line, t_map *data)
 {
 	char	**rgb;
@@ -56,13 +69,15 @@ int	extract_color(char *line, t_map *data)
 	int		g;
 	int		b;
 
+	if (count_commas(line) != 2)
+		free_and_exit(data, "Invalid color format. 2 commas required.");
 	rgb = ft_split(line, ',');
 	if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3] != NULL)
 	{
 		free_matrix(rgb);
 		free_and_exit(data, "Invalid color format. Use: R,G,B");
 	}
-	if (!is_valid_number(rgb[0]) || !is_valid_number(rgb[1]) 
+	if (!is_valid_number(rgb[0]) || !is_valid_number(rgb[1])
 		|| !is_valid_number(rgb[2]))
 		free_and_exit(data, "Invalid characters in the color");
 	r = ft_atoi(rgb[0]);
@@ -74,7 +89,6 @@ int	extract_color(char *line, t_map *data)
 	return ((r << 16) | (g << 8) | b);
 }
 
-// Funcion principal llamada desde map_textures.c
 void	save_color(int *dest, char *line, t_map *data, int is_floor)
 {
 	if (is_floor && data->floor_exist)

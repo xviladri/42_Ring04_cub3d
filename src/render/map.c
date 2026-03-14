@@ -41,9 +41,9 @@ static int	calculate_tex_x(t_map *data, t_ray *ray, t_tex *tex)
 		wall_x = data->player.pos_x + ray->perp_wall_dist * ray->dir_x;
 	wall_x -= floor(wall_x);
 	tex_x = (int)(wall_x * (double)tex->width);
-	if (ray->side == 0 && ray->dir_x > 0)
+	if (ray->side == 0 && ray->dir_x < 0)
 		tex_x = tex->width - tex_x - 1;
-	if (ray->side == 1 && ray->dir_y < 0)
+	if (ray->side == 1 && ray->dir_y > 0)
 		tex_x = tex->width - tex_x - 1;
 	return (tex_x);
 }

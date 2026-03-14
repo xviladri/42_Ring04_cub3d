@@ -12,27 +12,49 @@
 
 #include "../../inc/cub3d.h"
 
-// Escucha el teclado, mueve al jugador y repinta la pantalla
+int	focus_out(t_map *data)
+{
+	data->keys.w = 0;
+	data->keys.s = 0;
+	data->keys.a = 0;
+	data->keys.d = 0;
+	data->keys.rotateleft = 0;
+	data->keys.rotateright = 0;
+	return (0);
+}
+
 int	key_press(int keycode, t_map *data)
 {
-	double	speed;
-
-	speed = 0.2; /*Velocidad al caminar */
 	if (keycode == ESC)
 		close_window(data);
 	else if (keycode == KEY_W)
-		move_player(data, data->player.dir_x * speed, data->player.dir_y * speed);
+		data->keys.w = 1;
 	else if (keycode == KEY_S)
-		move_player(data, -data->player.dir_x * speed, -data->player.dir_y * speed);
+		data->keys.s = 1;
 	else if (keycode == KEY_A)
-		move_player(data, data->player.dir_y * speed, -data->player.dir_x * speed);
+		data->keys.a = 1;
 	else if (keycode == KEY_D)
-		move_player(data, -data->player.dir_y * speed, data->player.dir_x * speed);
+		data->keys.d = 1;
 	else if (keycode == KEY_LEFT)
-		rotate_player(data, -1);
+		data->keys.rotateleft = 1;
 	else if (keycode == KEY_RIGHT)
-		rotate_player(data, 1);
-	// IMPORTANT: Tras movernos, renderizamos el frame nuevo para ver el cambio
-	render_frame(data);
+		data->keys.rotateright = 1;
+	return (0);
+}
+
+int	key_release(int keycode, t_map *data)
+{
+	if (keycode == KEY_W)
+		data->keys.w = 0;
+	else if (keycode == KEY_S)
+		data->keys.s = 0;
+	else if (keycode == KEY_A)
+		data->keys.a = 0;
+	else if (keycode == KEY_D)
+		data->keys.d = 0;
+	else if (keycode == KEY_LEFT)
+		data->keys.rotateleft = 0;
+	else if (keycode == KEY_RIGHT)
+		data->keys.rotateright = 0;
 	return (0);
 }

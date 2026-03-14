@@ -39,34 +39,44 @@ void	identify_element(char *line, int i, t_map *data)
 	else if (ft_strncmp(&line[i], "C ", 2) == 0)
 		save_color(&data->ceiling_color, &line[i + 2], data, 0);
 	else
-		free_and_exit(data, "Elemento desconocido en el archivo .cub");
+		free_and_exit(data, "Unknown element in the .cub file");
 }
 
-//Funcion principal que clasifica la linea leida
+// Funcion auxiliar para process_line
+static void	handle_map_content(char *line, int i, t_map *data)
+{
+	if (line[i] == '1' || line[i] == '0')
+	{
+		if (data->map_started == 2)
+		{
+			free(line);
+			free_and_exit(data, "Error: Empty line on the map");
+		}
+		data->map_started = 1;
+		add_line_to_map(data, line);
+	}
+	else if (data->map_started >= 1)
+	{
+		free(line);
+		free_and_exit(data, "Error: Invalid line on the map");
+	}
+	else
+		identify_element(line, i, data);
+}
+
+// Funcion principal que clasifica la linea leida
 void	process_line(char *line, t_map *data)
 {
 	int	i;
 
 	i = skip_spaces(line);
-	/* Si la linea esta vacia (solo tenia espacios o el salto de linea) */
 	if (line[i] == '\n' || line[i] == '\0')
+	{
+		if (data->map_started == 1)
+			data->map_started = 2;
 		return ;
-	/* Si es el inicio del mapa (empieza por 1 o 0) */
-	if (line[i] == '1' || line[i] == '0')
-	{
-		data->map_started = 1;
-		add_line_to_map(data, line);
 	}
-	/* Si el mapa ya habia empezado, todo lo demas debe ser mapa */
-	else if (data->map_started == 1)
-	{
-		free_and_exit(data, "Linea invalida despues de empezar el mapa");
-	}
-	/* Si no es mapa ni esta vacia, debe ser un identificador (NO, SO, F...) */
-	else
-	{
-		identify_element(line, i, data);
-	}
+	handle_map_content(line, i, data);
 }
 
 // Guarda la ruta de la textura y comprueba que no hay basura detras
@@ -76,7 +86,7 @@ void	save_texture(char **dest, char *line, t_map *data)
 	int	start;
 
 	if (*dest != NULL)
-		free_and_exit(data, "Textura duplicada en el archivo .cub");
+		free_and_exit(data, "Duplicate texture in the .cub file");
 	i = 0;
 	while (line[i] == ' ' || line[i] == '\t')
 		i++;
@@ -85,9 +95,9 @@ void	save_texture(char **dest, char *line, t_map *data)
 		i++;
 	*dest = ft_substr(line, start, i - start);
 	if (!*dest)
-		free_and_exit(data, "Error de malloc al guardar la textura");
+		free_and_exit(data, "Error: malloc error saving texture");
 	while (line[i] == ' ' || line[i] == '\t')
 		i++;
 	if (line[i] != '\n' && line[i] != '\0')
-		free_and_exit(data, "Error: Basura despues de la ruta de la textura");
+		free_and_exit(data, "Error: Trash after the texture path");
 }

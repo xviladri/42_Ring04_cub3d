@@ -10,38 +10,80 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/cub3d.h"
+#include "../inc/cub3d.h"
 
-//1. MANEJO DE ERRORES Y LIMPIEZA
+static void	free_texture(t_map *data, t_tex *tex)
+{
+	if (tex->img_ptr)
+		mlx_destroy_image(data->mlx_ptr, tex->img_ptr);
+}
+
+static void	empty_gnl(int fd)
+{
+	char	*tmp;
+
+	if (fd > 0)
+	{
+		tmp = get_next_line(fd);
+		while (tmp != NULL)
+		{
+			free(tmp);
+			tmp = get_next_line(fd);
+		}
+		close(fd);
+	}
+}
+
 void	free_and_exit(t_map *data, char *error_msg)
 {
-	printf("Error: llamamos a la funcion free_and_exit.\n%s\n", error_msg);
-	if (data)
-	{
-		//Ayoub: anyadir los free() a medida que reservemos memoria:
-		//if (data -> cardinal.no) free(data->caridnal.no);
-		//if (data -> map) free_matrix(data->map);
-		// etc...
-	}
-	exit(1);//salir con error
+	ft_putstr_fd("Error\n", 2);
+	ft_putstr_fd(error_msg, 2);
+	ft_putstr_fd("\n", 2);
+	if (data->cardinal.no)
+		free(data->cardinal.no);
+	if (data->cardinal.so)
+		free(data->cardinal.so);
+	if (data->cardinal.we)
+		free(data->cardinal.we);
+	if (data->cardinal.ea)
+		free(data->cardinal.ea);
+	if (data->map)
+		free_matrix(data->map);
+	empty_gnl(data->fd);
+	exit(1);
 }
-// 2. FUNCION PARA CERRAR LA VENTANA CON ESC O LA CRUZ
-// Se llama al hacer clic en la X de la ventana (ON_DESTROY)
-// mlx_hook espera que devuelva int
-int	close_window(t_map *data)
+
+static void	free_graphics(t_map *data)
 {
-	printf("Cerrando el motor 3D limpiamente...\n");
+	if (!data->mlx_ptr)
+		return ;
+	free_texture(data, &data->tex_n);
+	free_texture(data, &data->tex_s);
+	free_texture(data, &data->tex_e);
+	free_texture(data, &data->tex_w);
 	if (data->imgs && data->imgs->img_ptr)
 		mlx_destroy_image(data->mlx_ptr, data->imgs->img_ptr);
 	if (data->imgs)
 		free(data->imgs);
 	if (data->win_ptr)
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-	if (data->mlx_ptr)
-	{
-		mlx_destroy_display(data->mlx_ptr);
-		free(data->mlx_ptr);
-	}
+	mlx_destroy_display(data->mlx_ptr);
+	free(data->mlx_ptr);
+}
+
+int	close_window(t_map *data)
+{
+	free_graphics(data);
+	if (data->cardinal.no)
+		free(data->cardinal.no);
+	if (data->cardinal.so)
+		free(data->cardinal.so);
+	if (data->cardinal.we)
+		free(data->cardinal.we);
+	if (data->cardinal.ea)
+		free(data->cardinal.ea);
+	if (data->map)
+		free_matrix(data->map);
 	exit(0);
 	return (0);
 }
